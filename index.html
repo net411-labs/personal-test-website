@@ -281,11 +281,6 @@
       transition: stroke .25s;
     }
 
-    .project-card:hover .project-icon {
-      background: var(--accent);
-      border-color: var(--accent);
-    }
-
     .project-card:hover .project-icon svg {
       stroke: #fff;
     }
@@ -432,8 +427,8 @@
         <span class="status-dot" title="Available for work"></span>
       </div>
       <h1>Your Name</h1>
-      <p class="role">Software Engineer · Building for the web</p>
-      <p class="bio">I build thoughtful software for the web — focused on clean interfaces, reliable backends, and things that are genuinely useful.</p>
+      <p class="role">Freelance Mobile Developer · iOS & Android</p>
+      <p class="bio">I'm a freelance mobile developer specializing in building high-quality iOS and Android applications. I work with startups and businesses to turn ideas into polished, performant apps — from concept and design through to App Store launch and beyond. Clean code, smooth UX, and on-time delivery are my standard.</p>
       <div class="profile-actions">
         <a href="mailto:you@example.com" class="btn btn-primary">Get in touch</a>
         <a href="#projects" class="btn btn-ghost">View work</a>
@@ -445,53 +440,92 @@
       <h2>Selected Work</h2>
       <div class="project-grid">
 
+        <!-- Rock Paper Scissors -->
         <a href="#" class="project-card">
           <div class="project-top">
-            <span class="project-icon">
-              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            <span class="project-icon" style="background:rgba(239,68,68,.12); border-color:rgba(239,68,68,.2);">
+              <svg viewBox="0 0 24 24" style="stroke:#ef4444;">
+                <path d="M18 11V7a2 2 0 0 0-4 0v4"/>
+                <path d="M14 11V5a2 2 0 0 0-4 0v6"/>
+                <path d="M10 11V7a2 2 0 0 0-4 0v8a6 6 0 0 0 12 0v-3a2 2 0 0 0-4 0"/>
+              </svg>
             </span>
             <span class="project-meta">
-              <span class="project-name">Project Alpha</span>
+              <span class="project-name">Rock Paper Scissors</span>
               <span class="project-year">2024</span>
             </span>
           </div>
-          <p class="project-desc">A web app that helps teams track and visualize their goals in real time.</p>
+          <p class="project-desc">A fun and fast-paced mobile game featuring the classic hand gesture battle. Play against the AI with smooth animations, score tracking, and a clean intuitive interface.</p>
           <div class="project-tags">
-            <span>React</span><span>Node.js</span><span>PostgreSQL</span>
+            <span>🎮 Game</span><span>iOS</span><span>Android</span><span>Flutter</span>
           </div>
           <span class="project-arrow">↗</span>
         </a>
 
+        <!-- Farm Play -->
         <a href="#" class="project-card">
           <div class="project-top">
-            <span class="project-icon">
-              <svg viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+            <span class="project-icon" style="background:rgba(34,197,94,.12); border-color:rgba(34,197,94,.2);">
+              <svg viewBox="0 0 24 24" style="stroke:#22c55e;">
+                <path d="M12 2a10 10 0 0 1 0 20"/>
+                <path d="M12 2C6.5 2 2 6.5 2 12"/>
+                <path d="M12 12c0-5.5 4.5-10 10-10"/>
+                <line x1="12" y1="12" x2="12" y2="22"/>
+                <line x1="12" y1="12" x2="2" y2="12"/>
+              </svg>
             </span>
             <span class="project-meta">
-              <span class="project-name">Project Beta</span>
-              <span class="project-year">2023</span>
+              <span class="project-name">Farm Play</span>
+              <span class="project-year">2024</span>
             </span>
           </div>
-          <p class="project-desc">An open-source CLI for managing environment variables across projects.</p>
+          <p class="project-desc">An engaging farming simulation game where players grow crops, raise animals, and build their dream farm. Features real-time growth mechanics, seasonal events, and social trading with other players.</p>
           <div class="project-tags">
-            <span>Go</span><span>CLI</span><span>OSS</span>
+            <span>🌾 Game</span><span>iOS</span><span>Android</span><span>Unity</span>
           </div>
           <span class="project-arrow">↗</span>
         </a>
 
+        <!-- FC Mobile -->
         <a href="#" class="project-card">
           <div class="project-top">
-            <span class="project-icon">
-              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <span class="project-icon" style="background:rgba(59,130,246,.12); border-color:rgba(59,130,246,.2);">
+              <svg viewBox="0 0 24 24" style="stroke:#3b82f6;">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 2c0 0-4 3-4 10s4 10 4 10"/>
+                <path d="M2 12h20"/>
+                <path d="M12 2c0 0 4 3 4 10s-4 10-4 10"/>
+              </svg>
             </span>
             <span class="project-meta">
-              <span class="project-name">Project Gamma</span>
+              <span class="project-name">FC Mobile</span>
               <span class="project-year">2023</span>
             </span>
           </div>
-          <p class="project-desc">A minimal markdown-based blogging engine with a focus on reading speed.</p>
+          <p class="project-desc">A competitive football management app letting users build their ultimate squad, compete in live tournaments, and trade players in real time. Packed with match simulations and global leaderboards.</p>
           <div class="project-tags">
-            <span>TypeScript</span><span>Vite</span><span>Markdown</span>
+            <span>⚽ Sports</span><span>iOS</span><span>Android</span><span>React Native</span>
+          </div>
+          <span class="project-arrow">↗</span>
+        </a>
+
+        <!-- Shop List -->
+        <a href="#" class="project-card">
+          <div class="project-top">
+            <span class="project-icon" style="background:rgba(168,85,247,.12); border-color:rgba(168,85,247,.2);">
+              <svg viewBox="0 0 24 24" style="stroke:#a855f7;">
+                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+              </svg>
+            </span>
+            <span class="project-meta">
+              <span class="project-name">Shop List</span>
+              <span class="project-year">2023</span>
+            </span>
+          </div>
+          <p class="project-desc">A smart shopping list app that helps users organise groceries, share lists with family, and track spending. Features category grouping, barcode scanning, and offline support for seamless use in-store.</p>
+          <div class="project-tags">
+            <span>🛒 Productivity</span><span>iOS</span><span>Android</span><span>Swift</span>
           </div>
           <span class="project-arrow">↗</span>
         </a>
