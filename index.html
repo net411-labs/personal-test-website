@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Name</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Tokens ── */
+    :root {
+      --bg:            #ffffff;
+      --surface:       #f4f6f9;
+      --surface-hover: #eceef2;
+      --border:        #e2e5eb;
+      --border-hover:  #c8cdd7;
+      --text:          #0f1117;
+      --muted:         #4b5263;
+      --faint:         #8b92a5;
+      --accent:        #4f46e5;
+      --accent-2:      #6366f1;
+      --accent-glow:   rgba(79,70,229,.15);
+      --avatar-bg:     #dde4f5;
+      --status:        #16a34a;
+      --status-glow:   rgba(22,163,74,.5);
+      --glow:          rgba(99,102,241,.12);
+    }
+
+    [data-theme="dark"] {
+      --bg:            #0a0a0f;
+      --surface:       rgba(255,255,255,.05);
+      --surface-hover: rgba(255,255,255,.09);
+      --border:        rgba(255,255,255,.09);
+      --border-hover:  rgba(255,255,255,.18);
+      --text:          #f1f2f5;
+      --muted:         #a1a1aa;
+      --faint:         #71717a;
+      --accent:        #6366f1;
+      --accent-2:      #818cf8;
+      --accent-glow:   rgba(99,102,241,.3);
+      --avatar-bg:     #c7d2fe;
+      --status:        #22c55e;
+      --status-glow:   rgba(34,197,94,.6);
+      --glow:          rgba(99,102,241,.2);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      transition: background .25s, color .25s;
+    }
+
+    /* ── Ambient glow ── */
+    .bg-glow {
+      position: fixed;
+      top: -180px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 420px;
+      background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
+      filter: blur(48px);
+      pointer-events: none;
+      z-index: 0;
+      transition: background .25s;
+    }
+
+    /* ── Theme toggle ── */
+    .theme-toggle {
+      position: fixed;
+      top: 18px;
+      right: 20px;
+      z-index: 100;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: background .2s, border-color .2s, transform .15s;
+      line-height: 1;
+    }
+
+    .theme-toggle:hover {
+      background: var(--surface-hover);
+      border-color: var(--border-hover);
+      transform: scale(1.08);
+    }
+
+    .icon-sun  { display: none; }
+    .icon-moon { display: block; }
+
+    [data-theme="dark"] .icon-sun  { display: block; }
+    [data-theme="dark"] .icon-moon { display: none; }
+
+    /* ── Layout ── */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 96px 24px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 64px;
+    }
+
+    /* ── Profile ── */
+    .profile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .avatar-wrap {
+      position: relative;
+      margin-bottom: 22px;
+    }
+
+    .avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: var(--avatar-bg);
+      border: 1px solid var(--border);
+      box-shadow: 0 0 0 4px var(--accent-glow), 0 10px 36px rgba(0,0,0,.1);
+      transition: background .25s, border-color .25s, box-shadow .25s;
+    }
+
+    .status-dot {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: var(--status);
+      border: 3px solid var(--bg);
+      box-shadow: 0 0 8px var(--status-glow);
+      transition: background .25s, border-color .25s;
+    }
+
+    .profile h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -.03em;
+      color: var(--text);
+      margin-bottom: 6px;
+      transition: color .25s;
+    }
+
+    .role {
+      font-size: .93rem;
+      color: var(--accent-2);
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .bio {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 460px;
+      margin-bottom: 26px;
+      transition: color .25s;
+    }
+
+    .profile-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 10px 22px;
+      border-radius: 9px;
+      font-size: .88rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all .2s ease;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 3px 16px var(--accent-glow);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-2);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px var(--accent-glow);
+    }
+
+    .btn-ghost {
+      background: var(--surface);
+      color: var(--text);
+      border-color: var(--border);
+    }
+
+    .btn-ghost:hover {
+      background: var(--surface-hover);
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+    }
+
+    /* ── Section label ── */
+    .block h2 {
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      color: var(--faint);
+      margin-bottom: 18px;
+      transition: color .25s;
+    }
+
+    /* ── Projects ── */
+    .project-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .project-card {
+      position: relative;
+      display: block;
+      padding: 20px 22px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      text-decoration: none;
+      transition: background .2s, border-color .2s, transform .2s, box-shadow .2s;
+    }
+
+    .project-card:hover {
+      background: var(--surface-hover);
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(0,0,0,.06);
+    }
+
+    .project-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
+
+    .project-name {
+      font-size: .97rem;
+      font-weight: 700;
+      color: var(--text);
+      transition: color .25s;
+    }
+
+    .project-year {
+      font-size: .78rem;
+      color: var(--faint);
+    }
+
+    .project-desc {
+      font-size: .88rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 12px;
+      max-width: 92%;
+      transition: color .25s;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .project-tags span {
+      font-size: .72rem;
+      font-weight: 500;
+      color: var(--muted);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 2px 9px;
+      border-radius: 5px;
+      transition: background .25s, border-color .25s, color .25s;
+    }
+
+    .project-arrow {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 1rem;
+      color: var(--faint);
+      opacity: 0;
+      transform: translate(-4px, 4px);
+      transition: all .2s ease;
+    }
+
+    .project-card:hover .project-arrow {
+      opacity: 1;
+      transform: translate(0, 0);
+      color: var(--accent);
+    }
+
+    /* ── Contact ── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .contact-card {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      padding: 16px 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      text-decoration: none;
+      transition: background .2s, border-color .2s, transform .2s;
+    }
+
+    .contact-card:hover {
+      background: var(--surface-hover);
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+    }
+
+    .contact-label {
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      color: var(--faint);
+      transition: color .25s;
+    }
+
+    .contact-value {
+      font-size: .9rem;
+      color: var(--text);
+      font-weight: 500;
+      transition: color .25s;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      font-size: .8rem;
+      color: var(--faint);
+      transition: color .25s;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 480px) {
+      main { padding: 72px 20px 56px; gap: 52px; }
+      .profile h1 { font-size: 1.65rem; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .project-desc { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-glow"></div>
+
+  <!-- Theme toggle -->
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+    <span class="icon-moon">🌙</span>
+    <span class="icon-sun">☀️</span>
+  </button>
+
+  <main>
+
+    <!-- Profile -->
+    <section class="profile">
+      <div class="avatar-wrap">
+        <img class="avatar" src="https://api.dicebear.com/7.x/notionists/svg?seed=dev&backgroundColor=dde4f5" alt="Avatar" />
+        <span class="status-dot" title="Available for work"></span>
+      </div>
+      <h1>Your Name</h1>
+      <p class="role">Software Engineer · Building for the web</p>
+      <p class="bio">I build thoughtful software for the web — focused on clean interfaces, reliable backends, and things that are genuinely useful.</p>
+      <div class="profile-actions">
+        <a href="mailto:you@example.com" class="btn btn-primary">Get in touch</a>
+        <a href="#projects" class="btn btn-ghost">View work</a>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="block" id="projects">
+      <h2>Selected Work</h2>
+      <div class="project-grid">
+
+        <a href="#" class="project-card">
+          <div class="project-top">
+            <span class="project-name">Project Alpha</span>
+            <span class="project-year">2024</span>
+          </div>
+          <p class="project-desc">A web app that helps teams track and visualize their goals in real time.</p>
+          <div class="project-tags">
+            <span>React</span><span>Node.js</span><span>PostgreSQL</span>
+          </div>
+          <span class="project-arrow">↗</span>
+        </a>
+
+        <a href="#" class="project-card">
+          <div class="project-top">
+            <span class="project-name">Project Beta</span>
+            <span class="project-year">2023</span>
+          </div>
+          <p class="project-desc">An open-source CLI for managing environment variables across projects.</p>
+          <div class="project-tags">
+            <span>Go</span><span>CLI</span><span>OSS</span>
+          </div>
+          <span class="project-arrow">↗</span>
+        </a>
+
+        <a href="#" class="project-card">
+          <div class="project-top">
+            <span class="project-name">Project Gamma</span>
+            <span class="project-year">2023</span>
+          </div>
+          <p class="project-desc">A minimal markdown-based blogging engine with a focus on reading speed.</p>
+          <div class="project-tags">
+            <span>TypeScript</span><span>Vite</span><span>Markdown</span>
+          </div>
+          <span class="project-arrow">↗</span>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="block" id="contact">
+      <h2>Let's Connect</h2>
+      <div class="contact-grid">
+        <a href="mailto:you@example.com" class="contact-card">
+          <span class="contact-label">Email</span>
+          <span class="contact-value">you@example.com</span>
+        </a>
+        <a href="https://github.com/" target="_blank" class="contact-card">
+          <span class="contact-label">GitHub</span>
+          <span class="contact-value">github.com/yourhandle</span>
+        </a>
+        <a href="https://linkedin.com/" target="_blank" class="contact-card">
+          <span class="contact-label">LinkedIn</span>
+          <span class="contact-value">in/yourname</span>
+        </a>
+        <a href="https://twitter.com/" target="_blank" class="contact-card">
+          <span class="contact-label">Twitter</span>
+          <span class="contact-value">@yourhandle</span>
+        </a>
+      </div>
+    </section>
+
+    <footer class="footer">© 2026 Your Name</footer>
+
+  </main>
+
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+
+    // Restore saved preference on load
+    (function () {
+      const saved = localStorage.getItem('theme');
+      if (saved) document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+
+</body>
+</html>
