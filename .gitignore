@@ -1,3 +1,4 @@
 .claude/
 server.pl
 server.ps1
+node_modules/
